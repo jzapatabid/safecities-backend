@@ -1,0 +1,19 @@
+FROM python:latest
+
+WORKDIR /app
+
+ENV DB_USER=postgres
+ENV DB_PWD=mysecretpassword
+ENV DB_URL=postgres-dev
+ENV DB_NAME=safecities_flask
+ENV DB_PORT=5432
+
+
+COPY requirements.txt .
+
+RUN pip install -U pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["celery", "-A", "wsgi.celery_app", "worker", "--loglevel", "INFO"]

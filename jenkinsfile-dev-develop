@@ -1,0 +1,153 @@
+pipeline {
+    agent any
+    
+    parameters {
+        string(name: 'REMOTE_DEV_SERVER', defaultValue: '192.168.12.5', description: 'remote dev server IP')
+        string(name: 'REMOTE_USER', defaultValue: 'pmf_admin', description: 'remote dev server user')
+        string(name: 'IMAGE_NAME', defaultValue: 'safe-cities-backend', description: 'Docker image name')
+        string(name: 'TAR_FILE', defaultValue: 'safe-cities-backend.tar', description: 'Tar file name for Docker image')
+        string(name: 'SSH_CREDENTIALS_ID', defaultValue: '~/.ssh/Floripa_prod', description: 'SSH ID')
+        string(name: 'REMOTE_PATH', defaultValue: '/var/docker', description: 'Path in the server')
+    }
+    
+     stages {
+
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout Code') {
+    steps {
+        checkout scm
+            }
+        }
+        stage('Build Dev Docker Image') {
+            steps {
+                script {
+                    def dockerTagDev = "safe-cities-backend-dev:${env.BUILD_NUMBER}"
+                    def dockerTagDevCelery = "safe-cities-celery-dev:${env.BUILD_NUMBER}"
+
+                    sh "docker system prune -a --volumes -f"
+		    sh "docker image prune -a -f"
+                    
+                    sh "docker build -t safe-cities-backend-dev:${env.BUILD_NUMBER} -f Dockerfile-Dev ."
+                    sh "docker build -t safe-cities-celery-dev:${env.BUILD_NUMBER} -f Dockerfile-Celery ."
+
+                    
+                    sh "docker tag ${dockerTagDev} safe-cities-backend-dev:latest"
+                    sh "docker tag ${dockerTagDevCelery} safe-cities-celery-dev:latest"
+                }
+            }
+        }
+
+        stage('Save Dev Docker Image') {
+            steps {
+                script {
+                    sh "docker save safe-cities-backend-dev:latest -o safe-cities-backend-dev-latest.tar"
+                    sh "docker save safe-cities-celery-dev:latest -o safe-cities-celery-dev-latest.tar"
+                }
+            }
+        }
+
+        stage('SCP Dev Docker Image to remote dev server') {
+            steps {
+                script {
+                    sh "scp -i ${params.SSH_CREDENTIALS_ID} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null safe-cities-backend-dev-latest.tar pmf_admin@${params.REMOTE_DEV_SERVER}:${params.REMOTE_PATH}"
+                    sh "scp -i ${params.SSH_CREDENTIALS_ID} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null safe-cities-celery-dev-latest.tar pmf_admin@${params.REMOTE_DEV_SERVER}:${params.REMOTE_PATH}"
+                }
+            }
+        }
+
+        stage('Deploy Docker Container on remote dev server') {
+            steps {
+                script {
+                    sh """
+                        ssh -i ${params.SSH_CREDENTIALS_ID} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null pmf_admin@${params.REMOTE_DEV_SERVER} "
+                            docker load < ${params.REMOTE_PATH}/safe-cities-backend-dev-latest.tar
+
+                            docker stop safe-cities-backend-dev || true
+                            docker rm safe-cities-backend-dev || true
+
+                            docker load < ${params.REMOTE_PATH}/safe-cities-celery-dev-latest.tar
+
+                            docker stop safe-cities-celery-dev || true
+                            docker rm safe-cities-celery-dev || true
+
+                            docker run --name safe-cities-backend-dev --network safe_cities \
+                            -e DB_USER=${env.DB_USER} \
+                            -e DB_PWD=${env.DB_PWD} \
+                            -e DB_URL=${env.DB_URL} \
+                            -e DB_NAME=${env.DB_NAME} \
+                            -e DB_PORT=${env.DB_PORT} \
+                            -e RABBITMQ_HOST=${env.RABBITMQ_HOST} \
+                            -e RABBITMQ_PORT=${env.RABBITMQ_PORT} \
+                            -e RABBITMQ_USER=${env.RABBITMQ_USER} \
+                            -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD} \
+                            -e MAIL_SERVER=${env.MAIL_SERVER} \
+                            -e MAIL_PORT=${env.MAIL_PORT} \
+                            -e MAIL_SUPRESS_SEND=${env.MAIL_SUPRESS_SEND} \
+                            -e MAIL_USE_TLS=${env.MAIL_USE_TLS} \
+                            -e MAIL_USE_SSL=${env.MAIL_USE_SSL} \
+                            -e BACKOFFICE_PHONE_NUMBER=${env.BACKOFFICE_PHONE_NUMBER} \
+                            -e BACKOFFICE_PHONE_ANNEX=${env.BACKOFFICE_PHONE_ANNEX} \
+                            -e SERVER_NAME=192.168.12.5 \
+                            -d -p 5000:5000 safe-cities-backend-dev:latest
+
+                            docker run --name safe-cities-celery-dev --network safe_cities \
+                            -e DB_USER=${env.DB_USER} \
+                            -e DB_PWD=${env.DB_PWD} \
+                            -e DB_URL=${env.DB_URL} \
+                            -e DB_NAME=${env.DB_NAME} \
+                            -e DB_PORT=${env.DB_PORT} \
+                            -e RABBITMQ_HOST=${env.RABBITMQ_HOST} \
+                            -e RABBITMQ_PORT=${env.RABBITMQ_PORT} \
+                            -e RABBITMQ_USER=${env.RABBITMQ_USER} \
+                            -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD} \
+                            -e MAIL_SERVER=${env.MAIL_SERVER} \
+                            -e MAIL_PORT=${env.MAIL_PORT} \
+                            -e MAIL_SUPRESS_SEND=${env.MAIL_SUPRESS_SEND} \
+                            -e MAIL_USE_TLS=${env.MAIL_USE_TLS} \
+                            -e BACKOFFICE_PHONE_NUMBER=${env.BACKOFFICE_PHONE_NUMBER} \
+                            -e BACKOFFICE_PHONE_ANNEX=${env.BACKOFFICE_PHONE_ANNEX} \
+                            -e SERVER_NAME=192.168.12.5 \
+                            -d safe-cities-celery-dev:latest
+
+                            docker stop rabbitmq-dev || true
+                            docker rm rabbitmq-dev || true
+
+                            docker stop mailhog-dev || true
+                            docker rm mailhog-dev || true
+
+                            docker stop postgres-dev || true
+                            docker rm postgres-dev || true
+                            "
+                    """
+                }
+            }
+        }
+
+        stage('SCP Docker Compose to remote dev server') {
+            steps {
+                script {
+                sh "scp -i ${params.SSH_CREDENTIALS_ID} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null  ${env.WORKSPACE}/docker-compose-dev.yaml pmf_admin@${params.REMOTE_DEV_SERVER}:${params.REMOTE_PATH}"
+                }
+            }
+        }
+
+        stage('Deploy with Docker Compose on remote dev server') {
+            steps {
+                script {
+                sh """
+                ssh -i ${params.SSH_CREDENTIALS_ID} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null pmf_admin@${params.REMOTE_DEV_SERVER} "
+                    cd ${params.REMOTE_PATH}
+                    docker-compose -f docker-compose-dev.yaml down
+                    docker-compose -f docker-compose-dev.yaml up -d
+                "
+                """
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,154 @@
+pipeline {
+    agent any
+    
+    parameters {
+        string(name: 'REMOTE_TEST_SERVER', defaultValue: '192.168.12.6', description: 'Remote server IP')
+        string(name: 'REMOTE_USER', defaultValue: 'pmf_admin', description: 'remote dev server user')
+        string(name: 'IMAGE_NAME', defaultValue: 'safe-cities-backend', description: 'Docker image name')
+        string(name: 'TAR_FILE', defaultValue: 'safe-cities-backend.tar', description: 'Tar file name for Docker image')
+        string(name: 'SSH_CREDENTIALS_ID', defaultValue: '~/.ssh/Floripa_prod', description: 'SSH ID')
+        string(name: 'REMOTE_PATH', defaultValue: '/var/docker', description: 'Path in the server')
+    }
+    
+     stages {
+
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout Code') {
+    steps {
+        checkout scm
+            }
+        }
+
+        stage('Build Test Docker Image') {
+            steps {
+                script {
+                    def dockerTagDev = "safe-cities-backend-test:${env.BUILD_NUMBER}"
+                    def dockerTagDevCelery = "safe-cities-celery-test:${env.BUILD_NUMBER}"
+
+                    sh "docker system prune -a --volumes -f"
+                    
+                    sh "docker build -t safe-cities-backend-test:${env.BUILD_NUMBER} -f Dockerfile-Test ."
+                    sh "docker build -t safe-cities-celery-test:${env.BUILD_NUMBER} -f Dockerfile-Celery ."
+                    
+                    sh "docker tag ${dockerTagDev} safe-cities-backend-test:latest"
+                    sh "docker tag ${dockerTagDevCelery} safe-cities-celery-test:latest"
+                }
+            }
+        }
+
+        stage('Save Test Docker Image') {
+            steps {
+                script {
+                    sh "docker save safe-cities-backend-test:latest -o safe-cities-backend-test-latest.tar"
+                    sh "docker save safe-cities-celery-test:latest -o safe-cities-celery-test-latest.tar"
+                }
+            }
+        }
+
+        stage('SCP Test Docker Image to remote dev server') {
+            steps {
+                script {
+                    sh "scp -i ${params.SSH_CREDENTIALS_ID} safe-cities-backend-test-latest.tar pmf_admin@${params.REMOTE_TEST_SERVER}:${params.REMOTE_PATH}"
+                    sh "scp -i ${params.SSH_CREDENTIALS_ID} safe-cities-celery-test-latest.tar pmf_admin@${params.REMOTE_TEST_SERVER}:${params.REMOTE_PATH}"
+                }
+            }
+        }
+
+        stage('Deploy Docker Container on remote test server') {
+            steps {
+                script {
+                    sh """
+                        ssh -i ${params.SSH_CREDENTIALS_ID} pmf_admin@${params.REMOTE_TEST_SERVER} "
+                            docker load < ${params.REMOTE_PATH}/safe-cities-backend-test-latest.tar
+
+                            docker stop safe-cities-backend-test || true
+                            docker rm safe-cities-backend-test || true
+
+                            docker load < ${params.REMOTE_PATH}/safe-cities-celery-test-latest.tar
+
+                            docker stop safe-cities-celery-test || true
+                            docker rm safe-cities-celery-test || true
+
+                            docker run --name safe-cities-backend-test --network safe_cities \
+                            -e DB_USER=${env.DB_USER} \
+                            -e DB_PWD=${env.DB_PWD} \
+                            -e DB_URL=postgres-db-test \
+                            -e DB_NAME=${env.DB_NAME} \
+                            -e DB_PORT=${env.DB_PORT} \
+                            -e RABBITMQ_HOST=rabbitmq-test \
+                            -e RABBITMQ_PORT=${env.RABBITMQ_PORT} \
+                            -e RABBITMQ_USER=${env.RABBITMQ_USER} \
+                            -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD} \
+                            -e MAIL_SERVER=mailhog-test \
+                            -e MAIL_PORT=${env.MAIL_PORT} \
+                            -e MAIL_SUPRESS_SEND=${env.MAIL_SUPRESS_SEND} \
+                            -e MAIL_USE_TLS=${env.MAIL_USE_TLS} \
+                            -e MAIL_USE_SSL=${env.MAIL_USE_SSL} \
+                            -e BACKOFFICE_PHONE_NUMBER=${env.BACKOFFICE_PHONE_NUMBER} \
+                            -e BACKOFFICE_PHONE_ANNEX=${env.BACKOFFICE_PHONE_ANNEX} \
+                            -e SERVER_NAME=192.168.12.6 \
+                             -d -p 5000:5000 safe-cities-backend-test:latest
+                            
+                            docker run --name safe-cities-celery-test --network safe_cities \
+                            -e DB_USER=${env.DB_USER} \
+                            -e DB_PWD=${env.DB_PWD} \
+                            -e DB_URL=postgres-db-test \
+                            -e DB_NAME=${env.DB_NAME} \
+                            -e DB_PORT=${env.DB_PORT} \
+                            -e RABBITMQ_HOST=rabbitmq-test \
+                            -e RABBITMQ_PORT=${env.RABBITMQ_PORT} \
+                            -e RABBITMQ_USER=${env.RABBITMQ_USER} \
+                            -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD} \
+                            -e MAIL_SERVER=mailhog-test \
+                            -e MAIL_PORT=${env.MAIL_PORT} \
+                            -e MAIL_SUPRESS_SEND=${env.MAIL_SUPRESS_SEND} \
+                            -e MAIL_USE_TLS=${env.MAIL_USE_TLS} \
+                            -e MAIL_USE_SSL=${env.MAIL_USE_SSL} \
+                            -e BACKOFFICE_PHONE_NUMBER=${env.BACKOFFICE_PHONE_NUMBER} \
+                            -e BACKOFFICE_PHONE_ANNEX=${env.BACKOFFICE_PHONE_ANNEX} \
+                            -e SERVER_NAME=192.168.12.6 \
+                            -d safe-cities-celery-test:latest
+
+                            docker stop rabbitmq-test || true
+                            docker rm rabbitmq-test || true
+
+                            docker stop mailhog-test || true
+                            docker rm mailhog-test || true
+
+                            docker stop postgres-test || true
+                            docker rm postgres-test || true
+                            "
+                    """
+                }
+            }
+        }
+
+        stage('SCP Docker Compose to remote test server') {
+            steps {
+                script {
+                sh "scp -i ${params.SSH_CREDENTIALS_ID}  ${env.WORKSPACE}/docker-compose-test.yaml pmf_admin@${params.REMOTE_TEST_SERVER}:${params.REMOTE_PATH}"
+                }
+            }
+        }
+
+        stage('Deploy with Docker Compose on remote test server') {
+            steps {
+                script {
+                sh """
+                ssh -i ${params.SSH_CREDENTIALS_ID} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null pmf_admin@${params.REMOTE_TEST_SERVER} "
+                    cd ${params.REMOTE_PATH}
+                    docker-compose -f docker-compose-test.yaml down
+                    docker-compose -f docker-compose-test.yaml up -d
+                "
+                """
+                }
+            }
+        }
+
+    }
+}

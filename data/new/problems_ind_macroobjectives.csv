@@ -1,0 +1,31 @@
+Indicator_Code,Name_Problem_Indicator (to use on Macroobjectives),Name_Problem_Indicator (to use on diagnosis),Name_Problem,Problem_Code
+IND0001,Tasa de delitos violentos y letales,Delitos violentos y letales,Delitos contra la vida,PG0001
+IND0002,Tasa de delitos contra la propiedad,Delitos contra la propiedad,Delitos contra la propiedad,PG0004
+IND0003,Tasa de homicidios,Homicidio doloso,Homicidio,PE0001
+IND0004,Tasa de homicidios juveniles,Homicidios dolosos (jóvenes),Homicidio de jóvenes,PE0002
+IND0005,Tasa de feminicidios,Femicidios,Feminicidio,PE0003
+IND0006,Tasa de lesiones corporales seguidas de muerte,Lesión corporal seguida de muerte,Lesión corporal seguida de muerte,PE0004
+IND0007,Tasa de homicidios relacionados con robos,Homicidios relacionados con robos,Homicidios relacionados con robos,PE0005
+IND0008,Tasa de violencia doméstica contra las mujeres,Violencia doméstica contra las mujeres,Violencia doméstica contra las mujeres,PE0006
+IND0009,Índice de agresiones contra las mujeres,Agresiones contra las mujeres,Violencia física no doméstica contra las mujeres,PE0007
+IND0010,Tasa de violencia sexual contra las mujeres,Violencia sexual contra las mujeres,Violencia sexual contra las mujeres,PE0008
+IND0011,Tasa de violencia doméstica contra niños/as y adolescentes,Violencia doméstica contra niños/as y adolescentes,"Malos tratos, abandono y violencia contra niños/as y adolescentes",PE0009
+IND0012,Tasa de violencia sexual contra niños/as y adolescentes,Violencia sexual contra niños/as y adolescentes,Violencia sexual contra niños/as y adolescentes,PE0010
+IND0013,Índice de agresiones contra adolescentes y jóvenes,Agresiones a adolescentes y jóvenes,Victimización de jóvenes en episodios violentos,PE0011
+IND0014,Tasa de adolescentes con antecedentes policiales,Adolescentes con antecedentes policiales,Implicación de jóvenes en actos delictivos,PE0012
+IND0015,Tasa de robos,Robo,Robo,PE0013
+IND0016,Tasa de robos a viviendas,Robo a viviendas,Robo a viviendas,PE0014
+IND0017,Tasa de hurtos a tiendas,Robo a tiendas,Robo a tiendas,PE0015
+IND0018,Índice de robo de vehículos,Robo de vehículos,Robo de vehículos,PE0016
+IND0019,Tasa de robos a peatones,Robo a peatones,Robo a peatones,PE0017
+IND0020,Tasa de robos en entidades financieras,Robo a entidades financieras,Robo a entidades financieras,PE0018
+IND0021,Tasa de hurtos,Hurto,Hurto,PE0019
+IND0022,Tasa de hurtos a viviendas,Hurto a viviendas,Hurto a viviendas,PE0020
+IND0023,Tasa de hurtos a tiendas,Hurto a tiendas,Hurto a tiendas,PE0021
+IND0024,Tasa de hurtos de vehículos,Hurto de vehículos,Hurto de vehículos,PE0022
+IND0025,Tasa de hurtos a peatones,Hurto a peatones,Hurto a peatones,PE0023
+IND0026,Taxa de reincidência genérica entre adultos,Reincidência genérica entre adultos,Reincidencia delictiva en adultos,PE0027
+IND0027,Taxa de reincidência genérica entre jovens infratores,Reincidência genérica entre jovens infratores,Reincidencia de los adolescentes,PE0028
+,,,Miedo a la victimización en episodios de delitos contra la vida,PE0024
+,,,Miedo a la victimización en episodios de delitos contra la propiedad,PE0025
+,,,Confianza en las instituciones de seguridad y justicia,PE0026

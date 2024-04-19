@@ -1,0 +1,24 @@
+version: "3.2"
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.11
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    ports:
+      - 1025:1025 # smtp port
+      - 8025:8025 # http port
+
+  postgres-db:
+    image: postgis/postgis:14-master
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - 5432:5432

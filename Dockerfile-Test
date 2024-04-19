@@ -1,0 +1,23 @@
+FROM python:latest
+
+WORKDIR /app
+
+ENV DB_USER=postgres
+ENV DB_PWD=mysecretpassword
+ENV DB_URL=postgres-test
+ENV DB_NAME=safecities_flask
+ENV DB_PORT=5442
+
+
+COPY requirements.txt .
+
+RUN pip install -U pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install gunicorn && \
+    pip install wsgiserver
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]

@@ -1,0 +1,194 @@
+<html lang="pt">
+<head>
+    <link
+            href="https://fonts.googleapis.com/css?family=Poppins"
+            rel="stylesheet"
+    />
+    <style>
+        header {
+            border-bottom: 1px solid #999999;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        body {
+            background: linear-gradient(180deg, #000000 0%, #253245 100%);
+            width: 100vw;
+            height: 100vh;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        footer {
+            border-top: 1px solid #999999;
+        }
+
+        .container {
+            background-color: #d9d9d9;
+            border-radius: 10px;
+            max-width: 530px;
+            width: 60%;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .circle {
+            background-color: #36373a;
+            border-radius: 50%;
+            height: 49px;
+            margin-left: 23px;
+            width: 49px;
+            min-width: 49px;
+        }
+
+        .title {
+            color: #000000;
+            font-family: "Poppins";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.06em;
+            line-height: 24px;
+            margin-left: 5px;
+        }
+
+        .desc {
+            color: #000000;
+            font-family: "Poppins";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 60px;
+            letter-spacing: 0.12em;
+            margin-right: 22px;
+            min-width: 175px;
+        }
+
+        .message {
+            display: flex;
+            margin: 33px 32px 0px 32px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .name {
+            align-self: flex-start;
+            font-family: "Poppins";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 24px;
+            color: #000000;
+        }
+
+        .body {
+            font-family: "Trebuchet MS";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 24px;
+            color: #000000;
+        }
+
+        .btn {
+            margin-top: 40px;
+            margin-bottom: 54px;
+            background: #202124;
+            border-radius: 10px;
+            height: 49px;
+            width: 209px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .note {
+            align-self: flex-start;
+            font-family: "Trebuchet MS";
+            font-style: italic;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 24px;
+            color: #000000;
+            margin-bottom: 62px;
+        }
+
+        .help {
+            align-self: flex-start;
+            font-family: "Trebuchet MS";
+            font-style: normal;
+            font-size: 14px;
+            color: #202124;
+            margin-bottom: 24px;
+        }
+
+        .footertext {
+            margin: 0px;
+            padding: 17px 32px;
+            font-family: "Roboto";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 10px;
+            line-height: 12px;
+            color: #666666;
+        }
+
+        @media screen and (max-width: 590px) {
+            header {
+                flex-wrap: wrap;
+                padding-top: 14px;
+            }
+
+            .desc {
+                margin: 0px;
+                margin-left: 23px;
+            }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <section class="container">
+        <header>
+            <div class="brand">
+                <div class="circle"></div>
+                <h4 class="title">SAFE CITIES</h4>
+            </div>
+            <h4 class="desc">Cidade de Florianópolis</h4>
+        </header>
+        <section class="message">
+            <h3 class="name">{{ fullname }},</h3>
+            <p class="body">
+                Você foi convidado para acessar a plataforma de Segurança Pública
+                para as cidades. Selecione o
+                <a href="{{ url_host }}/primeiro-acesso/?token={{ token }}" target="_blank">link abaixo</a>
+                para acessar a plataforma e confirmar o seu cadastro.
+            </p>
+            <a href="{{ url_host }}/primeiro-acesso/?token={{ token }}" target="_blank">
+                <button class="btn">Ativar usuário</button>
+            </a>
+            <p class="note">
+                Lembre-se que você tem 3 horas para ativar sua conta.
+            </p>
+            <p class="help">
+                <b>Precisa de ajuda?</b> Contato via help@safecities.org
+            </p>
+        </section>
+        <footer>
+            <p class="footertext">
+                As informações contidas neste e-mail podem ser confidenciais. Se
+                você o recebeu por engano, informe-nos por e-mail imediatamente e
+                exclua-o do seu sistema. Muito obrigado.
+            </p>
+        </footer>
+    </section>
+</main>
+</body>
+</html>

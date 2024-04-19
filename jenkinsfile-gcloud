@@ -1,0 +1,137 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+
+                    sh "docker system prune -a -f"
+
+                    def dockerTagDev = "safe-cities-backend-dev:${env.BUILD_NUMBER}"
+                    def dockerTagTest = "safe-cities-backend-test:${env.BUILD_NUMBER}"
+                    def dockerTagDevCelery = "safe-cities-celery-dev:${env.BUILD_NUMBER}"
+                    def dockerTagTestCelery = "safe-cities-celery-test:${env.BUILD_NUMBER}"
+
+                    sh "docker build -t safe-cities-backend-dev:${env.BUILD_NUMBER} -f Dockerfile-Dev ."
+                    sh "docker build -t safe-cities-backend-test:${env.BUILD_NUMBER} -f Dockerfile-Test ."
+                    sh "docker build -t safe-cities-celery-dev:${env.BUILD_NUMBER} -f Dockerfile-Celery ."
+                    sh "docker build -t safe-cities-celery-test:${env.BUILD_NUMBER} -f Dockerfile-Celery ."
+
+                    
+                    sh "docker tag ${dockerTagDev} safe-cities-backend-dev:latest"
+                    sh "docker tag ${dockerTagTest} safe-cities-backend-test:latest"
+                    sh "docker tag ${dockerTagDevCelery} safe-cities-celery-dev:latest"
+                    sh "docker tag ${dockerTagTestCelery} safe-cities-celery-test:latest"
+                }
+            }
+        }
+        
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    sh "docker stop safe-cities-backend-dev || true"
+                    sh "docker rm safe-cities-backend-dev || true"
+
+                    sh "docker stop safe-cities-backend-test || true"
+                    sh "docker rm safe-cities-backend-test || true"
+
+                    sh "docker stop safe-cities-celery-dev || true"
+                    sh "docker rm safe-cities-celery-dev || true"
+
+                    sh "docker stop safe-cities-celery-test || true"
+                    sh "docker rm safe-cities-celery-test || true"
+                    
+                    sh "docker run --name safe-cities-backend-dev --network safe_cities" +
+                    " -e DB_USER=${env.DB_USER}" + 
+                    " -e DB_PWD=${env.DB_PWD}" +
+                    " -e DB_URL=${env.DB_URL}" +
+                    " -e DB_NAME=${env.DB_NAME}" +
+                    " -e DB_PORT=${env.DB_PORT}" +
+                    " -e RABBITMQ_HOST=${env.RABBITMQ_HOST}" +
+                    " -e RABBITMQ_PORT=${env.RABBITMQ_PORT}" +
+                    " -e RABBITMQ_USER=${env.RABBITMQ_USER}" +
+                    " -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}" +
+                    " -e MAILHOG_SERVER=${env.MAILHOG_SERVER}" +
+                    " -e MAILHOG_PORT=${env.MAILHOG_PORT}" +
+                    " -e MAILHOG_SUPRESS_SEND=${env.MAILHOG_SUPRESS_SEND}" +
+                    " -e MAILHOG_USE_TLS=${env.MAILHOG_USE_TLS}" +
+                    " -e MAILHOG_USE_SSL=${env.MAILHOG_USE_SSL}" +
+                    " -d -p 5000:5000 safe-cities-backend-dev:latest"
+
+                    sh "docker run --name safe-cities-backend-test --network safe_cities" +
+                    " -e DB_USER=${env.DB_USER}" + 
+                    " -e DB_PWD=${env.DB_PWD}" +
+                    " -e DB_URL=${env.DB_URL}" +
+                    " -e DB_NAME=${env.DB_NAME}" +
+                    " -e DB_PORT=${env.DB_PORT}" +
+                    " -e RABBITMQ_HOST=${env.RABBITMQ_HOST}" +
+                    " -e RABBITMQ_PORT=${env.RABBITMQ_PORT}" +
+                    " -e RABBITMQ_USER=${env.RABBITMQ_USER}" +
+                    " -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}" +
+                    " -e MAILHOG_SERVER=${env.MAILHOG_SERVER}" +
+                    " -e MAILHOG_PORT=${env.MAILHOG_PORT}" +
+                    " -e MAILHOG_SUPRESS_SEND=${env.MAILHOG_SUPRESS_SEND}" +
+                    " -e MAILHOG_USE_TLS=${env.MAILHOG_USE_TLS}" +
+                    " -e MAILHOG_USE_SSL=${env.MAILHOG_USE_SSL}" +
+                    " -d -p 6000:5000 safe-cities-backend-test:latest"
+
+                    sh "docker run --name safe-cities-celery-dev --network safe_cities" + 
+                    " -e DB_USER=${env.DB_USER}" + 
+                    " -e DB_PWD=${env.DB_PWD}" +
+                    " -e DB_URL=${env.DB_URL}" +
+                    " -e DB_NAME=${env.DB_NAME}" +
+                    " -e DB_PORT=${env.DB_PORT}" +
+                    " -e RABBITMQ_HOST=${env.RABBITMQ_HOST}" +
+                    " -e RABBITMQ_PORT=${env.RABBITMQ_PORT}" +
+                    " -e RABBITMQ_USER=${env.RABBITMQ_USER}" +
+                    " -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}" +
+                    " -e MAILHOG_SERVER=${env.MAILHOG_SERVER}" +
+                    " -e MAILHOG_PORT=${env.MAILHOG_PORT}" +
+                    " -e MAILHOG_SUPRESS_SEND=${env.MAILHOG_SUPRESS_SEND}" +
+                    " -e MAILHOG_USE_TLS=${env.MAILHOG_USE_TLS}" +
+                    " -e MAILHOG_USE_SSL=${env.MAILHOG_USE_SSL}" +
+                    " -d safe-cities-celery-dev:latest"
+                   
+
+                    sh "docker run --name safe-cities-celery-test --network safe_cities" +
+                    " -e DB_USER=${env.DB_USER}" + 
+                    " -e DB_PWD=${env.DB_PWD}" +
+                    " -e DB_URL=${env.DB_URL}" +
+                    " -e DB_NAME=${env.DB_NAME}" +
+                    " -e DB_PORT=${env.DB_PORT}" +
+                    " -e RABBITMQ_HOST=${env.RABBITMQ_HOST}" +
+                    " -e RABBITMQ_PORT=${env.RABBITMQ_PORT}" +
+                    " -e RABBITMQ_USER=${env.RABBITMQ_USER}" +
+                    " -e RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}" +
+                    " -e MAILHOG_SERVER=${env.MAILHOG_SERVER}" +
+                    " -e MAILHOG_PORT=${env.MAILHOG_PORT}" +
+                    " -e MAILHOG_SUPRESS_SEND=${env.MAILHOG_SUPRESS_SEND}" +
+                    " -e MAILHOG_USE_TLS=${env.MAILHOG_USE_TLS}" +
+                    " -e MAILHOG_USE_SSL=${env.MAILHOG_USE_SSL}" +
+                    " -d safe-cities-celery-dev:latest"
+
+                    sh "docker stop rabbitmq-test || true"
+                    sh "docker rm rabbitmq-test || true"
+
+                    sh "docker stop rabbitmq-dev || true"
+                    sh "docker rm rabbitmq-dev || true"
+
+                    sh "docker stop mailhog-test || true"
+                    sh "docker rm mailhog-test || true"
+
+                    sh "docker stop mailhog-dev || true"
+                    sh "docker rm mailhog-dev || true"
+
+                    sh "docker stop postgres-test || true"
+                    sh "docker rm postgres-test || true"
+
+                    sh "docker stop postgres-dev || true"
+                    sh "docker rm postgres-dev || true"
+
+                    sh "docker-compose up -d"
+                }
+            }
+        }
+    }
+}

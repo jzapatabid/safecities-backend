@@ -1,0 +1,82 @@
+﻿id,name
+1,Número de centros de atención institucional y abrigos construidos o renovados
+2,Número de niños/as o adolescentes atendidos en programas de asistencia y protección
+3,Número de mujeres atendidas en programas de asistencia y protección
+4,Número de mujeres que participan en actividades de capacitación socioeconómica
+5,Número de personas atendidas en programas de asistencia y protección
+6,Número de acciones para prevenir el acoso y/o la violencia escolar llevadas a cabo
+7,Número de adolescentes y jóvenes atendidos a través del programa 
+8,Número de adolescentes y jóvenes atendidos a través del programa comunitario
+9,Número de adolescentes y jóvenes formados para actuar como multiplicadores del programa comunitario
+10,Número de adolescentes y jóvenes que participan en actividades de meditación y/o mindfulness
+11,Número de adolescentes y jóvenes que participan en actividades de prevención del consumo precoz y/o abusivo de alcohol y drogas
+12,Número de adolescentes y jóvenes que participan en actividades de desarrollo socioemocional
+13,Número de adolescentes y jóvenes que participan en las actividades del programa multicomponente
+14,Número de adolescentes y jóvenes que participan en actividades de psicoeducación
+15,Número de adolescentes y jóvenes que participan en actividades de terapia cognitivo-conductual
+16,Número de agentes comunitarios formados
+17,Número de agentes comunitarios formados para trabajar en el programa
+18,Número de estudiantes atendidos
+19,Número de estudiantes que participan en actividades de prevención de la violencia de género
+20,Número de alumnos que participan en actividades para prevenir el acoso y/o la violencia escolar
+21,"Número de alumnos que participan en actividades de prevención, búsqueda activa o reinserción para reducir el abandono escolar"
+22,Número de alumnos que participan en actividades extraescolares estructuradas
+23,Número de bases de datos integradas en el sistema
+24,Número de campañas de comunicación y movilización comunitaria realizadas
+25,Número de campañas de comunicación realizadas
+26,Número de parejas que participan en actividades para prevenir la violencia de pareja
+27,Número de centros comunitarios construidos o renovados
+28,Número de consejos comunitarios creados
+29,Número de consejos de mediación comunitaria creados
+30,Número de consejos de observatorios creados
+31,Número de niños/as y adolescentes atendidos a través de programas de acogimiento familiar
+32,Número de planes de estudios y procesos de formación reformulados
+33,Número de titulados que participan en actividades de prevención del consumo precoz y/o abusivo de alcohol y drogas
+34,Número de licenciados que participan en actividades de reinserción social
+35,Número de sistemas de vallado de seguridad inteligente adquiridos
+36,Número de sistemas de vallado de seguridad inteligente instalados
+37,Número de dispositivos de detección de disparos adquiridos
+38,Número de luminarias de alumbrado público adquiridas
+39,Número de luminarias de alumbrado público instaladas
+40,Número de equipos de televigilancia adquiridos
+41,Número de equipos de televigilancia instalados
+42,Número de dispositivos de detección de disparo instalados
+43,Número de equipos o materiales adquiridos
+44,Número de instalaciones públicas construidas o renovadas
+45,Número de equipos tecnológicos adquiridos
+46,Número de oficinas sociales construidas o renovadas
+47,Número de espacios públicos remodelados o construidos
+48,Número de familias asistidas a través de programas de crianza
+49,Número de familias que participan en actividades de intervención sistémica
+50,Número de familias registradas como familias de acogida
+51,Número de hombres que participan en actividades para prevenir la violencia de pareja
+52,Número de jóvenes atendidos
+53,Número de licencias de software adquiridas
+54,Número de líderes y miembros de organizaciones comunitarias formados
+55,Número de mecanismos de incentivos orientados a los resultados aplicados
+56,Número de medidas legales y/o administrativas para limitar la posesión y/o el porte de armas de fuego aprobadas
+57,Número de medidas legales y/o administrativas para limitar la venta de alcohol aprobadas
+58,Número de mujeres atendidas a través de programas de visitas a domicilio
+59,Número de organizaciones locales/comunitarias integradas en el programa
+60,Número de personas en familias cubiertas por programas de transferencias económicas
+61,Número de personas que participan en actividades de prevención de la violencia de género
+62,Número de agentes de policía formados en procedimientos justos
+63,Número de puntos crónicos de venta/recepción de bienes robados identificados y objeto de las patrullas
+64,Número de puntos conflictivos identificados y objeto de la acción de las patrullas
+65,Número de problemas analizados según el modelo S.A.R.A o similar
+66,Número de profesionales/agentes comunitarios formados o capacitados
+67,Número de profesionales / agentes formados o capacitados
+68,Número de profesionales de la seguridad formados
+69,Número de profesionales formados
+70,Número de profesionales o agentes comunitarios formados
+71,Número de sesiones de tutoría realizadas
+72,Número de unidades escolares construidas
+73,Número de unidades escolares renovadas
+74,Número de visitas a prisiones realizadas
+75,Número de visitas domiciliarias realizadas
+76,Número de visitas realizadas
+77,Porcentaje de titulados que participan en actividades de reinserción social
+78,Porcentaje de agentes de policía formados en procedimientos justos
+79,Proporción de alumnos que participan en actividades extraescolares estructuradas (Total de participantes / Total de matriculados en los grados y años de referencia *100)
+80,Proporción de niños/as de 4 y 5 años matriculados en preescolas
+81,Proporción de unidades escolares que adoptan proyectos de apoyo pedagógico y tutoría

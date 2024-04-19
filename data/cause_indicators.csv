@@ -1,0 +1,39 @@
+﻿code,name,cause,measurement_unit,polarity
+IND0011,Violencia familiar contra niños/as y adolescentes,DC0014,Tasa por cada 100.000,Negative
+IND0013,Agresiones contra adolescentes y jóvenes,DC0036,Tasa por cada 100.000,Negative
+IND0014,Adolescentes com passagem pela polícia,"DC0015,DC0025",Tasa por cada 100.000,Negative
+IND0028,Posesión ilegal de armas de fuego,"DC0001,DC0019",Tasa por cada 100.000,Negative
+IND0029,Tráfico de drogas,DC0002,Tasa por cada 100.000,Negative
+IND0030,Pertenencia a organización criminal,DC0002,Tasa por cada 100.000,Negative
+IND0031,Lesiones corporales intencionadas no letales y agresiones,DC0003,Tasa por cada 100.000,Negative
+IND0032,Muertes presuntamente relacionadas con la implicación en grupos criminales,DC0004,Número absoluto,Negative
+IND0033,"Esclarecimiento de delitos violentos, letales e intencionales",DC0005,Porcentaje,Positive
+IND0034,"Tasa de sentenciamiento de delitos violentos, letales e intencionales",DC0006,Porcentaje,Positive
+IND0035,Reincidencia penitenciaria entre adultos,"DC0008,DC0052",Porcentaje,Negative
+IND0036,Niños/as y adolescentes advertidos formalmente o retirados de la escuela debido a un episodio de indisciplina o violencia ,DC0009,Porcentaje,Negative
+IND0037,Aprendizaje inadecuado (escuela primaria),DC0010,Porcentaje,Negative
+IND0038,Aprendizaje inadecuado (escuela secundaria),DC0010,Porcentaje,Negative
+IND0039,Abandono escolar (escuela primaria),DC0011,Porcentaje,Negative
+IND0040,Abandono escolar (escuela secundaria),DC0011,Porcentaje,Negative
+IND0041,Muertes de adolescentes y jóvenes atribuibles al abuso de alcohol o drogas,"DC0012,DC0016,DC0029",Tasa por cada 100.000,Negative
+IND0042,Niños/as y adolescentes separados de su familia de origen por orden de un tribunal,"DC0013,DC0014,DC0025,DC0035,DC0036,DC0026",Tasa por cada 100.000,Negative
+IND0043,Muertes de hombres atribuibles al abuso de alcohol o drogas (proxy),"DC0016,DC0029",Tasa por cada 100.000,Negative
+IND0045,Violencia doméstica reiterada,"DC0020,DC0021,DC0033",Porcentaje,Negative
+IND0046,Incumplimiento de una medida de protección,DC0021,Porcentaje,Negative
+IND0049,Incautación de productos de origen ilícito/ilegal,DC0024,Tasa por cada 100.000,Negative
+IND0050,Aceptación/Posesión de bienes robados,DC0024,Número absoluto,Negative
+IND0051,Niños/as y adolescentes en hogares con casos de violencia doméstica (proxy),"DC0025,DC0026",Tasa por cada 100.000,Negative
+IND0053,Muertes de mujeres atribuibles al abuso de alcohol o drogas (proxy),DC0028,Tasa por cada 100.000,Negative
+IND0054,Delitos violentos contra las mujeres (proxy),DC0030,Tasa por cada 100.000,Negative
+IND0053,Muertes de mujeres atribuibles al abuso de alcohol o drogas (proxy),DC0028,Tasa por cada 100.000,Negative
+IND0055,Total de muertes atribuibles al abuso de alcohol o drogas (proxy),DC0035,Tasa por cada 100.000,Negative
+IND0056,Viviendas privados ocupados en asentamientos informales (proxy),"DC0037,DC0040",Porcentaje,Negative
+IND0059,Muertes por violencia policial,"DC0004,DC0046",Tasa por cada 100.000,Negative
+IND0060,Llamadas por servicio vinculado a condiciones que intensifican la vulnerabilidad situacional,DC0047,Número absoluto,Negative
+IND0062,Presos provisionales,DC0051,Porcentaje,Negative
+IND0063,Incidentes de violencia en el sistema penitenciario,DC0053,Tasa por cada 100.000,Negative
+IND0064,Sobrepoblación en el sistema penitenciario,DC0054,Porcentaje,Negative
+IND0065,Proporción entre el uso de penas no privativas de libertad y penas privativas de libertad para delincuentes juveniles ,DC0056,Ratio,Negative
+IND0066,Reincidencia en el sistema socioeducativo,DC0057,Porcentaje,Negative
+IND0067,Incidentes de violencia en el sistema socioeducativo,DC0058,Tasa por cada 100.000,Negative
+IND0068,Sobrepoblación en el sistema socioeducativo,DC0059,Porcentaje,Negative

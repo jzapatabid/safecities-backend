@@ -1,0 +1,35 @@
+# ------------ Test -------------
+version: "3.5"
+services:
+
+  rabbitmq-test:
+    image: rabbitmq:3.11
+    container_name: rabbitmq-test
+    ports:
+      - 5672:5672
+
+  mailhog-test:
+    image: mailhog/mailhog:latest
+    container_name: mailhog-test
+    ports:
+      - 1025:1025 # smtp port
+      - 8025:8025 # http port
+
+  postgres-db-test:
+    image: postgis/postgis:14-master
+    container_name: postgres-test
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+# ----------Network------------
+networks:
+  default:
+    external:
+      name: safe_cities
+# ---------Volumes-------------
+volumes:
+  postgres-data-dev:
