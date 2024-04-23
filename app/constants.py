@@ -2,29 +2,29 @@ from typing import Dict, List
 
 DATA_PROPERTIES_MAPPING = {
 
-    'perpetrator_identification': ('Pessoas', 'Autores', 'Identificação'),
-    'perpetrator_gender': ('Pessoas', 'Autores', 'Sexo'),
-    'perpetrator_ethnicity': ('Pessoas', 'Autores', 'Raça/Cor'),
-    'perpetrator_age_range': ('Pessoas', 'Autores', 'Idade'),
-    'perpetrator_academic_level': ('Pessoas', 'Autores', 'Escolaridade'),
-    'perpetrator_job_status': ('Pessoas', 'Autores', 'Empregado(a)'),
-    'perpetrator_victim_relationship': ('Pessoas', 'Autores', 'Relação com a Vítima'),
+    'perpetrator_identification': ('Personas', 'Autores', 'Identificación'),
+    'perpetrator_gender': ('Personas', 'Autores', 'Sexo'),
+    'perpetrator_ethnicity': ('Personas', 'Autores', 'Raça/Cor'),
+    'perpetrator_age_range': ('Personas', 'Autores', 'Idade'),
+    'perpetrator_academic_level': ('Personas', 'Autores', 'Educación'),
+    'perpetrator_job_status': ('Personas', 'Autores', 'Empleado'),
+    'perpetrator_victim_relationship': ('Personas', 'Autores', 'Relación con la víctima'),
 
-    'victim_gender': ('Pessoas', 'Vítima', 'Sexo'),
-    'victim_ethnicity': ('Pessoas', 'Vítima', 'Raça/Cor'),
-    'victim_age_range': ('Pessoas', 'Vítima', 'Idade'),
-    'victim_academic_level': ('Pessoas', 'Vítima', 'Escolaridade'),
-    'victim_job_status': ('Pessoas', 'Vítima', 'Empregado(a)'),
+    'victim_gender': ('Personas', 'Víctima', 'Sexo'),
+    'victim_ethnicity': ('Personas', 'Víctima', 'Raça/Cor'),
+    'victim_age_range': ('Personas', 'Víctima', 'Idade'),
+    'victim_academic_level': ('Personas', 'Víctima', 'Educación'),
+    'victim_job_status': ('Personas', 'Víctima', 'Empleado'),
 
-    'date_day_type': ('Momentos', 'Dia', 'Tipo de Dia'),
-    'date_day_of_the_week': ('Momentos', 'Dia', 'Dia da Semana'),
-    'date_time_of_day': ('Momentos', 'Horário', 'N/A'),
+    'date_day_type': ('Momentos', 'Día', 'Tipo de Día'),
+    'date_day_of_the_week': ('Momentos', 'Día', 'Día de la semana'),
+    'date_time_of_day': ('Momentos', 'Horario', 'N/A'),
 
-    'concentration': ('Lugares', 'Concentração', 'N/A'),
+    'concentration': ('Lugares', 'Concentración', 'N/A'),
     'place_type': ('Lugares', 'Tipo de lugar', 'N/A'),
 
-    'weapon': ('Modalidade', 'Meio empregado', 'N/A'),
-    'typology': ('Modalidade', 'Tipologia', 'N/A'),
+    'weapon': ('Modalidad', 'Empleado significa', 'N/A'),
+    'typology': ('Modalidad', 'Tipo', 'N/A'),
 }
 
 
